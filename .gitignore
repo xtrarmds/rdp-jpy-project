@@ -5,7 +5,7 @@ venv/
 lseg-data-lib.log
 lseg-data-lib.log.*
 uvicorn.log
-*.log
+2025*
 # 敏感配置文件
 lseg-data.config.json
 
