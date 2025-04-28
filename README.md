@@ -44,7 +44,7 @@ A FastAPI-based web application for real-time currency pair data (e.g., XAU=, JP
 4. **Configure LSEG credentials**:
    - Create `lseg-data.config.json` in the project root with your credentials.
    - Example format:
-     {
+{
     "logs": {
         "level": "info",
         "transports": {
@@ -61,9 +61,9 @@ A FastAPI-based web application for real-time currency pair data (e.g., XAU=, JP
         "default": "platform.ldp",
         "platform": {
             "ldp": {
-                "app-key": "d619d*******************508f3",
-                "username": "GE-A-***********",
-                "password": "R*******78",
+                "app-key": "d619d3******************08f3",
+                "username": "GE-A-0*******9-3-2***",
+                "password": "Lseg*****8",
                 "signon_control": true
             }
         }
