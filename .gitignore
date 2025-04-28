@@ -1,0 +1,27 @@
+# 虚拟环境
+venv/
+
+# 日志文件
+lseg-data-lib.log
+lseg-data-lib.log.*
+uvicorn.log
+
+# 敏感配置文件
+lseg-data.config.json
+
+# 临时文件
+*.pyc
+__pycache__/
+
+# 备份文件
+display.htmlbackup
+
+# 重复文件（已在 static/）
+favicon.ico
+
+# 测试脚本（可选，建议排除）
+test.html
+get_btc_realtime.py
+get_jpy_realtime.py
+get_btc_fields.py
+import-lseg.py

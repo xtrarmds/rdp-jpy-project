@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>输入货币对</title>
+    <script src="/static/react.development.js"></script>
+    <script src="/static/react-dom.development.js"></script>
+    <script src="/static/babel.min.js"></script>
+    <script src="/static/tailwind.min.js"></script>
+    <link rel="icon" href="/static/favicon.ico">
+</head>
+<body class="bg-gray-100">
+    <div id="root"></div>
+    <script type="text/babel" data-presets="react,es2015">
+        console.log('Babel 加载:', typeof Babel);
+        console.log('React 加载:', typeof React);
+        console.log('ReactDOM 加载:', typeof ReactDOM);
+
+        function InputPage() {
+            const [pair, setPair] = React.useState('');
+            const [pairs, setPairs] = React.useState([]);
+            const [error, setError] = React.useState(null);
+
+            // 处理输入框变化
+            const handleInputChange = (e) => {
+                setPair(e.target.value);
+                setError(null);
+            };
+
+            // 处理回车键添加货币对
+            const handleKeyPress = (e) => {
+                if (e.key === 'Enter' && pair.trim()) {
+                    e.preventDefault();
+                    if (pairs.length >= 10) {
+                        setError('最多支持 10 个货币对');
+                        return;
+                    }
+                    if (pairs.includes(pair.trim())) {
+                        setError('货币对已存在');
+                        return;
+                    }
+                    setPairs([...pairs, pair.trim()]);
+                    setPair('');
+                    console.log('添加货币对:', pair.trim());
+                }
+            };
+
+            // 删除货币对
+            const handleDelete = (index) => {
+                setPairs(pairs.filter((_, i) => i !== index));
+                setError(null);
+                console.log('删除货币对:', pairs[index]);
+            };
+
+            // 提交所有货币对
+            const handleSubmit = async () => {
+                if (pairs.length === 0) {
+                    setError('请至少输入一个货币对');
+                    return;
+                }
+                try {
+                    console.log('提交货币对:', pairs);
+                    const response = await fetch('/submit_pairs', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ pairs })
+                    });
+                    if (response.ok) {
+                        console.log('提交成功:', await response.json());
+                        window.location.href = '/display';
+                    } else {
+                        setError('提交失败，请检查服务器');
+                        console.error('提交失败:', response.status);
+                    }
+                } catch (error) {
+                    setError('网络错误，请检查连接');
+                    console.error('提交错误:', error);
+                }
+            };
+
+            return (
+                <div className="container mx-auto p-4 max-w-lg">
+                    <h1 className="text-2xl font-bold mb-4 text-center">输入货币对</h1>
+                    <div className="mb-4">
+                        <input
+                            type="text"
+                            value={pair}
+                            onChange={handleInputChange}
+                            onKeyPress={handleKeyPress}
+                            placeholder="输入货币对（例如 BTC=）并按回车"
+                            className="w-full p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                        {error && (
+                            <p className="text-red-500 text-sm mt-2">{error}</p>
+                        )}
+                    </div>
+                    {pairs.length > 0 && (
+                        <div className="mb-4">
+                            <h2 className="text-lg font-semibold mb-2">已输入的货币对：</h2>
+                            <ul className="list-disc pl-5">
+                                {pairs.map((p, index) => (
+                                    <li key={index} className="flex justify-between items-center mb-1">
+                                        <span>{p}</span>
+                                        <button
+                                            onClick={() => handleDelete(index)}
+                                            className="text-red-500 hover:text-red-700"
+                                        >
+                                            删除
+                                        </button>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    <button
+                        onClick={handleSubmit}
+                        className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                    >
+                        提交
+                    </button>
+                </div>
+            );
+        }
+
+        try {
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<InputPage />);
+            console.log('InputPage 渲染成功');
+        } catch (error) {
+            console.error('InputPage 渲染失败:', error);
+        }
+    </script>
+</body>
+</html>
