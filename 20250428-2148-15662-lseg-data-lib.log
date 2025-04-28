@@ -1,0 +1,2 @@
+[2025-04-28T21:48:55.182069+08:00] - [sessions.platform.ldp.0] - [INFO] - [127174093561984 - MainThread] - [session] - [close_session] - Closing session
+[2025-04-28T21:48:56.017580+08:00] - [sessions.platform.ldp.0] - [INFO] - [127174093561984 - MainThread] - [session] - [close_session] - Session is closed
