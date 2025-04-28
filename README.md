@@ -25,7 +25,7 @@ LSEG Data Platform credentials (for lseg-data.config.json)
 Setup
 
 Clone the repository:
-git clone https://github.com/your-username/rdp-jpy-project.git
+git clone https://github.com/xtrarmds/rdp-jpy-project.git
 cd rdp-jpy-project
 
 
@@ -42,13 +42,36 @@ Note: If lseg-data fails, contact LSEG for access or configure a private PyPI so
 
 Configure LSEG credentials:
 
-Create lseg-data.config.json with your credentials:{
-    "username": "your-username",
-    "password": "your-password",
-    "client_id": "your-client-id"
+Create lseg-data.config.json in the project root with your credentials.
+Example format:
+{
+    "logs": {
+        "level": "info",
+        "transports": {
+            "console": {
+                "enabled": false
+            },
+            "file": {
+                "enabled": true,
+                "name": "lseg-data-lib.log"
+            }
+        }
+    },
+    "sessions": {
+        "default": "platform.ldp",
+        "platform": {
+            "ldp": {
+                "app-key": "d619d3f05f********************",
+                "username": "GE-A-002*****-*-**44",
+                "password": "8888888888",
+                "signon_control": true
+            }
+        }
+    }
 }
 
 
+Replace the starred fields (********) with your actual LSEG username, password, and client ID.
 
 
 Run the server:
